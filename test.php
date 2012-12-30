@@ -8,16 +8,10 @@ require_once('lib/Tile.class.php');
 require_once('lib/Board.class.php');
 
 $board = new Board();
-/**
- * n e t l
- * i r o d
- * a n i s
- * r y e o
- */
-$tileString = 'netlirodanisryeo';
+$tileString = $argv[1];
 for ($i = 0; $i < Board::NUM_ROWS * Board::NUM_COLS; $i++) {
     $letter = substr($tileString, $i, 1);
-    $board->addTile($letter, $i == 4 ? Tile::ATTR_TRIPLE_LETTER : Tile::ATTR_NONE);
+    $board->addTile($letter);
 }
 $fp = fopen('TWL06.txt', 'r');
 $matches = array();

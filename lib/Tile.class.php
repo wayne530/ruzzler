@@ -93,14 +93,25 @@ class Tile {
      * get all neighbors of this tile with the provided letter, if any
      *
      * @param string $letter
+     * @param bool $filterUsed  whether to filter out tiles that are flagged as used
      * @return Tile[]|null  array of tiles; null if no neighbor with provided letter
      */
-    public function getNeighbors($letter) {
+    public function getNeighbors($letter, $filterUsed = false) {
         $letter = strtolower($letter);
         if (! $this->hasNeighbor($letter)) {
             return NULL;
         }
-        return $this->neighbors[$letter];
+        if (! $filterUsed) {
+            return $this->neighbors[$letter];
+        }
+        $neighbors = array();
+        foreach ($this->neighbors[$letter] as &$tile) {
+            /** @var Tile $tile */
+            if (! $tile->isUsed()) {
+                $neighbors[] = &$tile;
+            }
+        }
+        return $neighbors;
     }
 
     /**

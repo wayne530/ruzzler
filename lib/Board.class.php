@@ -159,7 +159,7 @@ class Board {
         foreach ($tiles as &$tile) {
             $tile->setIsUsed(true);
             if ($tile->hasNeighbor($firstLetter)) {
-                $wordSuffixes = $this->findWordProper($tile->getNeighbors($firstLetter), substr($word, 1));
+                $wordSuffixes = $this->findWordProper($tile->getNeighbors($firstLetter, true), substr($word, 1));
                 foreach ($wordSuffixes as $wordSuffix) {
                     if (is_array($wordSuffix)) {
                         $matches[] = array_merge(array(&$tile), $wordSuffix);
