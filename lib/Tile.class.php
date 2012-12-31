@@ -181,6 +181,34 @@ class Tile {
     }
 
     /**
+     * from this tile, compute all k-prefixes and return the distinct set
+     *
+     * @param int $k  k-value; large values will take exponentially longer to compute so keep small (<= 3)
+     *
+     * @return array  unique k-prefixes from this tile
+     */
+    public function getKPrefixes($k) {
+        // base case
+        if ($k == 1) {
+            return array($this->getLetter());
+        }
+        // recurse
+        $kPrefixes = array();
+        $this->setIsUsed(true);
+        /** @var Tile[] $tiles */
+        foreach ($this->neighbors as $letter => &$tiles) {
+            foreach ($tiles as &$tile) {
+                if ($tile->isUsed()) { continue; }
+                foreach ($tile->getKPrefixes($k - 1) as $kSuffix) {
+                    $kPrefixes[$this->getLetter() . $kSuffix] = true;
+                }
+            }
+        }
+        $this->setIsUsed(false);
+        return array_keys($kPrefixes);
+    }
+
+    /**
      * string formatting for class
      *
      * @return string

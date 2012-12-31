@@ -7,13 +7,19 @@ error_reporting(E_ALL);
 require_once('lib/Tile.class.php');
 require_once('lib/Board.class.php');
 
+/**
+ * l p e f
+ * a o a r
+ * w e e s
+ * d l h d
+ */
 $board = new Board();
 $tileString = $argv[1];
 for ($i = 0; $i < Board::NUM_ROWS * Board::NUM_COLS; $i++) {
     $letter = substr($tileString, $i, 1);
     $board->addTile($letter);
 }
-$fp = fopen('TWL06.txt', 'r');
+$fp = fopen('TWL06_reversed.txt', 'r');
 $matches = array();
 while ($word = fgets($fp)) {
     $word = strtolower(trim($word));
